@@ -6,7 +6,7 @@ CC = g++
 # -Wall turns of most, but not all, compiler warnings
 CXXFLAGS= -std=c++11 -g -Wall
 
-OBJECTS = Simulation.o Customer.o main.o
+OBJECTS = PriorityQueue.o Simulation.o Customer.o main.o
 HEADERS := $(shell find . -path ./test -prune -o -name "*.h" -print)
 
 main: main.o $(OBJECTS)

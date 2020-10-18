@@ -19,6 +19,7 @@ class Simulation {
     int getChannelsOpen();
     float getNextRandomInterval(int average);
     float getSimulationOverallTime();
+    void SetArrivals(std::vector <Customer*> arrivals);
     void setSimulationOverallTime(float arrivalInterval);
     void setSimulationRuns(int simulationRuns);
     void setAverageNumberOfArrivals(int averageArrivals);
@@ -31,7 +32,7 @@ class Simulation {
 
     float simulationOverallTime = 0.0; //need for determining the time of the sim the next arrival shows
     
-    std::vector<Customer> Arrivals = {};
+    std::vector<Customer*> Arrivals = {};
 
 };
 

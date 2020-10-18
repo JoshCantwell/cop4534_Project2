@@ -1,9 +1,13 @@
+
 #include "Simulation.h"
 #include <iostream>
 #include <random>
+#include <math.h>
+#include "PriorityQueue.h"
 
 void Simulation::Run() {
 
+  PriorityQueue prio;
   std::string userAnswerString;
   int userAnswerInt, n = 0;
   std::cout << "Welcome to the simulation"  << std::endl;
@@ -29,15 +33,24 @@ void Simulation::Run() {
 
   while(n <= getSimulationRuns()) {
     
-    Customer customer;
    
-    Arrivals.push_back(customer);
+    Arrivals.push_back(new Customer());
   
    n++;
   }
-  std::cout << Arrivals.size() << Arrivals[1000].GetArrivalTime();
 
+  SetArrivals(Arrivals);
+
+  std::cout << "\nTEST" << std::endl;
+  prio.InsertDeparture(Arrivals.at(0), Arrivals.at(0)->GetArrivalTime());
+  prio.InsertDeparture(Arrivals.at(2), Arrivals.at(2)->GetArrivalTime());
+  prio.InsertDeparture(Arrivals.at(1), Arrivals.at(1)->GetArrivalTime());
+  prio.ShowQueue();
+
+
+  // delete the arrival vector
 }
+
 
 void Simulation::setSimulationOverallTime(float simulationOverallTime) {
 
@@ -63,7 +76,9 @@ float Simulation::getNextRandomInterval(int average) {
   // Generates random nunmber
   double number = myUnifRealDist(myRandomEngine);
 
-  return number;
+  float intervalTime = (-1 * (1.0/getAverageNumberOfArrivals()) * log(number));
+
+  return intervalTime;
 }
 
 int Simulation::getSimulationRuns() {
@@ -113,6 +128,19 @@ void Simulation::setAverageNumberOfDepartures(int averageNumberOfDepartures) {
 void Simulation::setChannelsOpen(int channelsOpen){
 
   this->channelsOpen = channelsOpen;
+}
+
+void Simulation::SetArrivals(std::vector <Customer*> arrivals) {
+
+  for(long unsigned int i = 0; i < arrivals.size(); i++) {
+
+    float interval = getNextRandomInterval(averageNumberOfArrivals);
+    simulationOverallTime += interval;
+    arrivals.at(i)->SetArrivalTime(simulationOverallTime);
+    std::cout << arrivals.at(i)->GetArrivalTime() << " ";
+
+
+  }
 }
 
 
