@@ -41,16 +41,25 @@ void Simulation::Run() {
 
   SetArrivals(Arrivals);
 
-  std::cout << "\nTEST" << std::endl;
-  prio.InsertDeparture(Arrivals.at(0), Arrivals.at(0)->GetArrivalTime());
-  prio.InsertDeparture(Arrivals.at(2), Arrivals.at(2)->GetArrivalTime());
-  prio.InsertDeparture(Arrivals.at(1), Arrivals.at(1)->GetArrivalTime());
-  prio.ShowQueue();
+  prio.LoadPriorityQueue(Arrivals, 0);
 
+  while(prio.QueueSize() > 0) {
 
+    ProcessNextEvent(prio);
+    if(prio.QueueSize() < channelsOpen + 1)
+     std::cout << "loading prio" << std::endl;
+     prio.LoadPriorityQueue(Arrivals, 0);
+
+  }
   // delete the arrival vector
 }
 
+void Simulation::ProcessNextEvent(PriorityQueue prio) {
+
+  Customer * cust = prio.GetQueue().front();
+  prio.GetQueue().erase(prio.GetQueue().begin());
+
+}
 
 void Simulation::setSimulationOverallTime(float simulationOverallTime) {
 

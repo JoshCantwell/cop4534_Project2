@@ -11,8 +11,12 @@ class PriorityQueue {
 
 
     }
-    void InsertDeparture(Customer* cust, float priority);
 
+    std::vector <Customer*> GetQueue();
+    void Insert(Customer* cust, float priority);
+
+    int QueueSize();
+    void LoadPriorityQueue(std::vector <Customer*> Arrivals, int simInt);
     void ShowQueue();
   private:
 

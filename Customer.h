@@ -12,8 +12,11 @@ class Customer {
       ArrivalTime = 0.0;
       StartOfServiceTime = 0.0;
       DepartureTime = 0.0;
+      isArrival = true;
 
     }
+    bool GetIsArrival();
+    void SetIsArrival(bool arrival);
 
     float GetArrivalTime();
     float GetStartOfServiceTime();
@@ -27,7 +30,7 @@ class Customer {
   private:
 
     float ArrivalTime, StartOfServiceTime, DepartureTime;
-
+    bool isArrival;
     Customer * nextCust;  // For linked FIFO
     
 };

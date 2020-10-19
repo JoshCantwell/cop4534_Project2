@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Customer.h"
+#include "PriorityQueue.h" 
 class Simulation {
 
   public:
@@ -12,7 +13,8 @@ class Simulation {
 
     }
 
-  
+
+    void ProcessNextEvent(PriorityQueue prio);
     int getSimulationRuns();
     int getAverageNumberOfArrivals();
     int getAverageNumberOfDepartures();
