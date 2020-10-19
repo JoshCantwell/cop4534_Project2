@@ -1,6 +1,27 @@
 #include "PriorityQueue.h"
 
+void PriorityQueue::popPrio() {
 
+  prioQueue.erase(prioQueue.begin());
+}
+Customer* PriorityQueue::popFIFO(){
+
+  Customer* cust = fifo.at(0);
+  fifo.erase(fifo.begin());
+  return cust;
+
+}
+std::vector <Customer*> PriorityQueue::GetFIFO() {
+
+  return this->fifo;
+
+}
+
+void PriorityQueue::insertFIFO(Customer* cust) {
+
+  fifo.push_back(cust);
+
+}
 std::vector<Customer*> PriorityQueue::GetQueue() {
 
   return prioQueue;
@@ -39,7 +60,7 @@ void PriorityQueue::ShowQueue(){
   std::cout << prioQueue.size() << std::endl;
   for(unsigned long int i = 0; i < prioQueue.size(); i++) {
 
-    std::cout << prioQueue.at(i)->GetArrivalTime() << std::endl;
+    std::cout << prioQueue.at(i)->GetArrivalTime() << " " << prioQueue.at(i)->GetIsArrival() << std::endl;
 
   }
 
@@ -48,11 +69,22 @@ void PriorityQueue::ShowQueue(){
 
 
 void PriorityQueue::LoadPriorityQueue(std::vector<Customer*> Arrivals, int simInt) {
+  if(simInt + 100 < Arrivals.size() ) { 
+  
+    for(unsigned long int i = 0; i < 100; i++) {
 
-  for(unsigned long int i = 0; i < 100; i++) {
+    
+      prioQueue.insert(prioQueue.end(), Arrivals.at(simInt + i));
 
-    prioQueue.insert(prioQueue.end() + simInt, Arrivals.at(simInt + i));
+  
+    }
+  } else {
 
+    int runsLeft = Arrivals.size() - simInt;
+    for(unsigned long int i = 0; i < runsLeft; i++) {
+
+      prioQueue.insert(prioQueue.end(), Arrivals.at(simInt + 1));
+    }
   }
   ShowQueue();
 

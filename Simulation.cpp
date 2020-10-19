@@ -7,7 +7,9 @@
 
 void Simulation::Run() {
 
-  PriorityQueue prio;
+
+    PriorityQueue* prio;
+    prio = new PriorityQueue();
   std::string userAnswerString;
   int userAnswerInt, n = 0;
   std::cout << "Welcome to the simulation"  << std::endl;
@@ -41,23 +43,59 @@ void Simulation::Run() {
 
   SetArrivals(Arrivals);
 
-  prio.LoadPriorityQueue(Arrivals, 0);
+  prio->LoadPriorityQueue(Arrivals, 0);
 
-  while(prio.QueueSize() > 0) {
+  int simRuns = 100;
+  while(prio->QueueSize() > 0) {
 
     ProcessNextEvent(prio);
-    if(prio.QueueSize() < channelsOpen + 1)
-     std::cout << "loading prio" << std::endl;
-     prio.LoadPriorityQueue(Arrivals, 0);
+   
+    if(prio->QueueSize() < channelsOpen + 1){
+  
+      prio->LoadPriorityQueue(Arrivals, simRuns);
+  
+    }
+    simRuns++;
 
   }
   // delete the arrival vector
 }
 
-void Simulation::ProcessNextEvent(PriorityQueue prio) {
+void Simulation::ProcessNextEvent(PriorityQueue* prio) {
 
-  Customer * cust = prio.GetQueue().front();
-  prio.GetQueue().erase(prio.GetQueue().begin());
+  Customer * cust = prio->GetQueue().at(0);
+
+  if(cust->GetIsArrival() == true) { 
+
+    if(channelsOpen > 0) {
+
+      channelsOpen--;
+      cust->SetStartOfServiceTime(cust->GetArrivalTime());
+      cust->SetDepartureTime(cust->GetArrivalTime() + getNextRandomInterval(averageNumberOfDepartures));
+      prio->Insert(cust, cust->GetDepartureTime());
+      
+    } else {
+
+      prio->insertFIFO(cust);
+    } 
+  
+  }else { 
+
+      channelsOpen++;
+      //processStats()
+      if(prio->GetFIFO().size() != 0) {
+
+        Customer *cust2 = prio->popFIFO();
+
+        cust2->SetStartOfServiceTime(cust->GetDepartureTime());
+        cust2->SetDepartureTime(cust2->GetStartOfServiceTime() + getNextRandomInterval(averageNumberOfDepartures));
+        prio->Insert(cust2, cust2->GetDepartureTime());
+        channelsOpen--;
+      }
+   
+  }
+ 
+  prio->popPrio();
 
 }
 

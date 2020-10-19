@@ -13,14 +13,19 @@ class PriorityQueue {
     }
 
     std::vector <Customer*> GetQueue();
+    std::vector <Customer*> GetFIFO();
     void Insert(Customer* cust, float priority);
-
+    void insertFIFO(Customer* cust);
+    void popPrio();
+    Customer* popFIFO();
     int QueueSize();
     void LoadPriorityQueue(std::vector <Customer*> Arrivals, int simInt);
     void ShowQueue();
   private:
 
     std::vector <Customer*> prioQueue = {};
+
+    std::vector <Customer*> fifo = {};
 };
 
 

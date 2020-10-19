@@ -14,7 +14,7 @@ class Simulation {
     }
 
 
-    void ProcessNextEvent(PriorityQueue prio);
+    void ProcessNextEvent(PriorityQueue* prio);
     int getSimulationRuns();
     int getAverageNumberOfArrivals();
     int getAverageNumberOfDepartures();
@@ -32,6 +32,7 @@ class Simulation {
 
     int simulationRuns, averageNumberOfArrivals, averageNumberOfDepartures, channelsOpen;
 
+  
     float simulationOverallTime = 0.0; //need for determining the time of the sim the next arrival shows
     
     std::vector<Customer*> Arrivals = {};
